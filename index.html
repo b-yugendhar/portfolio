@@ -187,8 +187,61 @@
     }
 
     .nav-profile-logo:hover {
-      transform: scale(1.05) translate(-1px, -1px);
-      box-shadow: 4px 4px 0 #000;
+      transform: scale(1.2) translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #000;
+    }
+
+    /* PROFILE IMAGE MODAL */
+    .profile-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .profile-modal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .profile-modal img {
+      width: 300px;
+      height: 300px;
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+      transform: scale(0.8);
+      transition: transform 0.3s ease;
+      object-fit: cover;
+    }
+
+    .profile-modal.show img {
+      transform: scale(1);
+    }
+
+    .profile-modal-close {
+      position: absolute;
+      top: 25px;
+      right: 40px;
+      color: #fff;
+      font-size: 45px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    .profile-modal-close:hover {
+      color: var(--yellow);
     }
 
     .navlinks {
@@ -1458,6 +1511,11 @@
 </head>
 
 <body>
+  <div class="profile-modal" id="profileModal">
+    <span class="profile-modal-close" id="profileModalClose">&times;</span>
+    <img src="profile.jpg" alt="Profile Full">
+  </div>
+
   <div class="bg-animation">
     <div class="smoke"></div>
     <div class="smoke"></div>
@@ -1556,7 +1614,7 @@
         <div class="tl_item left">
           <div class="tl_marker" style="background:var(--blue);"><img
               src="https://imgs.search.brave.com/t4OOB8GqejVnvvIC7fSnJXe1rVVyAPB1Ez2R3Uoztek/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wbmcu/cG5ndHJlZS5jb20v/cG5nLXZlY3Rvci8y/MDI1MDIxOS9vdXJt/aWQvcG5ndHJlZS1h/LWN1c3RvbWl6YWJs/ZS1ibGFjay1ncmFk/dWF0aW9uLWNhcC13/aXRoLWVtYnJvaWRl/cmVkLWxvZ29zLW9y/LXRleHQtYWxsb3dp/bmctcG5nLWltYWdl/XzE1NTI5MzQ4LnBu/Zw"
-              alt=""></div>
+              alt="" width="100px" height="100px"></div>
           <div class="tl_content">
             <div class="tl_card" style="border-left-color:var(--blue);">
               <h3>CVR College of Engineering</h3>
@@ -2063,6 +2121,28 @@
     }, { threshold: 0.2 });
 
     tlItems.forEach(item => tlObserver.observe(item));
+
+    // Profile Modal Logic
+    const navProfile = document.querySelector('.nav-profile-logo');
+    const profileModal = document.getElementById('profileModal');
+    const profileModalClose = document.getElementById('profileModalClose');
+
+    if (navProfile && profileModal && profileModalClose) {
+      navProfile.addEventListener('click', function (e) {
+        e.preventDefault();
+        profileModal.classList.add('show');
+      });
+
+      profileModalClose.addEventListener('click', function () {
+        profileModal.classList.remove('show');
+      });
+
+      profileModal.addEventListener('click', function (e) {
+        if (e.target === profileModal) {
+          profileModal.classList.remove('show');
+        }
+      });
+    }
   </script>
 
 </body>
